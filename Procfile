@@ -1,1 +1,1 @@
-web: gunicorn wedding_invitation
+web: gunicorn wedding_invitation.wsgi:application

@@ -1,0 +1,46 @@
+:root{
+  --lux-safe-pad: env(safe-area-inset-top, 0px);
+  --lux-safe-pad-b: env(safe-area-inset-bottom, 0px);
+}
+
+/* Global safety */
+html{ -webkit-text-size-adjust:100%; }
+body{ overflow-x:hidden; }
+
+/* Touch targets */
+button, a[role='button']{
+  min-height:44px;
+}
+
+/* Mobile glass safety */
+.lux-mobile .glass-card,
+.lux-mobile .glass-card-luxury,
+.lux-mobile .glass-form,
+.lux-mobile .glass-card-info,
+.lux-mobile .glass-badge,
+.lux-mobile .music-glass,
+.lux-mobile .video-controls{
+  backdrop-filter: blur(8px) !important;
+}
+
+/* Animate transforms safely */
+.lux-anim-transform{ will-change: transform; }
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration:0.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.001ms !important;
+    scroll-behavior:auto !important;
+  }
+}
+
+/* Breakpoints helpers (mobile-first) */
+@media (min-width:481px){
+}
+@media (min-width:769px){
+}
+@media (min-width:1200px){
+}
+
