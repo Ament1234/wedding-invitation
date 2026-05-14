@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Save The Date | Rashmika & Vijay | Cinematic Wedding Teaser</title>
+    <!-- Google Fonts: Luxury Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            background: #000;
+            scroll-behavior: smooth;
+        }
+
+        /* Cinematic Fullscreen Video Container */
+        .video-hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #bgVideo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        /* Dark Cinematic Overlay */
+        .cinematic-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.75) 100%);
+            z-index: 1;
+            backdrop-filter: brightness(0.85) contrast(1.1);
+        }
+
+        /* Hero Content */
+        .hero-content {
+            position: relative;
+            z-index: 15;
+            text-align: center;
+            color: #fff9ef;
+            padding: 2rem;
+            max-width: 90%;
+            animation: cinematicGlow 3s ease-out;
+        }
+
+        .save-date-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.8rem, 6vw, 3.2rem);
+            letter-spacing: 8px;
+            font-weight: 300;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #f9eac3, #d4af37, #f7e5c2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(212,175,55,0.4);
+            animation: fadeZoomIn 1.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .couple-names {
+            font-size: clamp(2.5rem, 10vw, 5.8rem);
+            font-weight: 800;
+            margin: 0.8rem 0;
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(135deg, #fff5e0, #ecca6e, #f8e4b0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+            animation: fadeZoomIn 1.8s ease-out;
+        }
+
+        .wedding-date {
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            font-weight: 400;
+            letter-spacing: 4px;
+            margin-top: 0.5rem;
+            border-top: 1px solid rgba(212,175,55,0.6);
+            display: inline-block;
+            padding-top: 1rem;
+            animation: fadeZoomIn 2s ease-out;
+        }
+
+        /* Video Controls Container */
+        .video-controls {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            z-index: 20;
+            display: flex;
+            gap: 15px;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            padding: 10px 18px;
+            border-radius: 60px;
+            border: 1px solid rgba(212,175,55,0.5);
+        }
+        .ctrl-btn {
+            background: transparent;
+            border: none;
+            color: #f3e2b0;
+            font-size: 1.6rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .ctrl-btn:hover {
+            background: rgba(212,175,55,0.3);
+            transform: scale(1.1);
+            color: #ffea9e;
+        }
+
+        /* Romantic Quote Section */
+        .quote-section {
+            min-height: 60vh;
+            background: linear-gradient(145deg, #0c0708, #1a1114);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .quote-container {
+            max-width: 800px;
+            z-index: 5;
+        }
+        .quote-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            font-weight: 400;
+            font-style: italic;
+            color: #f7eacb;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px rgba(0,0,0,0.3);
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .quote-author {
+            font-size: 1rem;
+            letter-spacing: 2px;
+            color: #d4af37;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.8s 0.2s;
+        }
+        .quote-section.visible .quote-text,
+        .quote-section.visible .quote-author {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Continue Button */
+        .continue-wrapper {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: radial-gradient(circle at 50% 0%, #1e1518, #020101);
+        }
+        .continue-btn {
+            background: linear-gradient(95deg, #b8860b, #d4af37, #f3cf6a);
+            border: none;
+            padding: 18px 58px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: #1f170f;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.5s;
+            box-shadow: 0 0 20px rgba(212,175,55,0.5);
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .continue-btn i {
+            transition: transform 0.3s;
+        }
+        .continue-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 35px rgba(212,175,55,0.9);
+            background: linear-gradient(95deg, #d4af37, #e9c45a, #ffde9e);
+        }
+        .continue-btn:hover i {
+            transform: translateX(8px);
+        }
+
+        /* Floating Glowing Particles & Sparkles */
+        .particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 25;
+        }
+        .sparkle {
+            position: absolute;
+            background: radial-gradient(circle, #ffefb0, #d4af37);
+            border-radius: 50%;
+            opacity: 0;
+            animation: sparklePulse 2s infinite alternate;
+            pointer-events: none;
+        }
+        @keyframes sparklePulse {
+            0% { transform: scale(0.2); opacity: 0; }
+            100% { transform: scale(1); opacity: 0.9; }
+        }
+
+        /* Cinematic Transition Effect between sections */
+        .section-transition {
+            position: relative;
+        }
+        .fade-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.9s ease, transform 0.9s ease;
+        }
+        .fade-scroll.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Background Music Button (optional floating) */
+        .music-global {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 30;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 60px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid rgba(212,175,55,0.5);
+            cursor: pointer;
+            transition: 0.3s;
+            color: #ffeaae;
+        }
+        .music-global:hover {
+            background: rgba(212,175,55,0.2);
+            transform: scale(1.03);
+        }
+        .music-global i {
+            font-size: 1.4rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 680px) {
+            .video-hero{ height: 100svh; }
+            .video-controls { bottom: calc(16px + env(safe-area-inset-bottom)); right: 16px; padding: 6px 12px; gap: 8px; }
+            .ctrl-btn { width: 34px; height: 34px; font-size: 1.2rem; }
+            .continue-wrapper{ padding-bottom: calc(2rem + env(safe-area-inset-bottom)); }
+            .continue-btn { padding: 12px 32px; font-size: 1.2rem; min-height: 44px; }
+            .music-global { bottom: calc(18px + env(safe-area-inset-bottom)); left: 16px; padding: 6px 14px; font-size: 0.8rem; }
+
+            /* mobile glass / blur reduction */
+            .cinematic-overlay{ backdrop-filter: none; }
+            .video-controls{ backdrop-filter: blur(6px); }
+        }
+
+        /* Mobile performance hooks */
+        .lux-mobile .particles-canvas{ display:none !important; }
+        .lux-mobile .floating-heart{ display:none !important; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .video-hero, .hero-content, .save-date-text, .couple-names, .wedding-date{ animation: none !important; }
+            .music-global, .video-controls{ transition: none !important; }
+        }
+
+
+        @keyframes fadeZoomIn {
+            0% { opacity: 0; transform: scale(0.9); filter: blur(4px);}
+            100% { opacity: 1; transform: scale(1); filter: blur(0);}
+        }
+        @keyframes cinematicGlow {
+            0% { text-shadow: 0 0 0 rgba(212,175,55,0); opacity: 0; }
+            100% { text-shadow: 0 0 20px rgba(212,175,55,0.5); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hero Video Section -->
+<div class="video-hero" id="heroVideo">
+    <!-- Cinematic Romantic Background Video (auto-play, loop, muted by default due to autoplay policies, we will unmute music? but background music separate) -->
+    <video id="bgVideo" autoplay loop muted playsinline poster="https://images.pexels.com/photos/3171811/pexels-photo-3171811.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2">
+        <source src="https://player.vimeo.com/external/578699568.sd.mp4?s=2d3b4e4b2b8e2b8e2b8e2b8e2b8e2b8e2b8e2b8e&profile_id=164" type="video/mp4">
+        <!-- Fallback romantic stock video alternative -->
+        <source src="https://cdn.pixabay.com/video/2022/12/05/142328-778624955_large.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="cinematic-overlay"></div>
+    
+    <div class="hero-content">
+        <div class="save-date-text">Save The Date</div>
+        <div class="couple-names">Rashmika ❤️ Vijay</div>
+        <div class="wedding-date">December 12, 2026</div>
+    </div>
+    
+    <!-- Video Controls -->
+    <div class="video-controls">
+        <button id="playPauseBtn" class="ctrl-btn" aria-label="Play/Pause"><i class="fas fa-pause"></i></button>
+        <button id="muteBtn" class="ctrl-btn" aria-label="Mute/Unmute"><i class="fas fa-volume-up"></i></button>
+    </div>
+</div>
+
+<!-- Romantic Quote Section with cinematic fade -->
+<div class="quote-section" id="quoteSection">
+    <div class="quote-container">
+        <div class="quote-text">“True love is not about perfection, it is hidden in the beautiful imperfections of two souls becoming one.”</div>
+        <div class="quote-author">— A timeless promise —</div>
+    </div>
+</div>
+
+<!-- Continue Button to Next Page -->
+<div class="continue-wrapper fade-scroll" id="continueWrapper">
+    <button id="continueBtn" class="continue-btn">
+        Begin The Journey <i class="fas fa-arrow-right"></i>
+    </button>
+    <p style="color: #aa8c54; margin-top: 1.2rem; font-size: 0.8rem;">Continue to our wedding celebration</p>
+</div>
+
+<!-- Floating Glowing Particles / Sparkles Canvas -->
+<div id="particlesContainer" class="particles-canvas"></div>
+
+<!-- Background Music (Soft Romantic) -->
+<audio id="bgAudio" loop autoplay>
+    <source src="{static\audio\musicword-fall-in-love-264570.mp3}" type="audio/mpeg">
+</audio>
+<div class="music-global" id="globalMusicToggle">
+    <i class="fas fa-music" id="musicIconGlobal"></i> <span id="musicLabel">Melody</span>
+</div>
+
+<script>
+    // DOM Elements
+    const video = document.getElementById('bgVideo');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const muteBtn = document.getElementById('muteBtn');
+    const continueBtn = document.getElementById('continueBtn');
+    const quoteSection = document.getElementById('quoteSection');
+    const continueWrapper = document.getElementById('continueWrapper');
+    const bgMusic = document.getElementById('bgMusic');
+    const musicToggle = document.getElementById('globalMusicToggle');
+    const musicIconGlobal = document.getElementById('musicIconGlobal');
+    const musicLabel = document.getElementById('musicLabel');
+    
+    let musicPlaying = false;
+    let videoPlaying = true;
+    let videoMuted = true;   // video starts muted for autoplay compliance
+    
+    // Ensure video plays and initial states
+    video.volume = 0.0;
+    video.muted = true;
+    muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+    
+    // Play/Pause video control
+    function toggleVideoPlay() {
+        if (video.paused) {
+            video.play().then(() => {
+                videoPlaying = true;
+                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            }).catch(err => console.log("Video play error", err));
+        } else {
+            video.pause();
+            videoPlaying = false;
+            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        }
+    }
+    
+    // Mute/Unmute video with proper UI
+    function toggleVideoMute() {
+        video.muted = !video.muted;
+        if (video.muted) {
+            muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            videoMuted = true;
+        } else {
+            muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+            videoMuted = false;
+            // adjust volume
+            video.volume = 0.25;
+        }
+    }
+    
+    playPauseBtn.addEventListener('click', toggleVideoPlay);
+    muteBtn.addEventListener('click', toggleVideoMute);
+    
+    // Background Music handling with autoplay policy (user interaction needed)
+    let musicUnlocked = false;
+    function unlockAndPlayMusic() {
+        if (musicUnlocked) return;
+        bgMusic.volume = 0.25;
+        bgMusic.play().then(() => {
+            musicPlaying = true;
+            musicIconGlobal.classList.remove('fa-music');
+            musicIconGlobal.classList.add('fa-pause');
+            musicLabel.innerText = 'Melody On';
+            musicUnlocked = true;
+        }).catch(e => console.log("Music autoplay blocked, click to play"));
+    }
+    
+    // Global document click / tap to unlock music once (cinematic)
+    const unlockHandler = () => {
+        unlockAndPlayMusic();
+        document.removeEventListener('click', unlockHandler);
+        document.removeEventListener('touchstart', unlockHandler);
+    };
+    document.addEventListener('click', unlockHandler);
+    document.addEventListener('touchstart', unlockHandler);
+    
+    // Toggle music manually
+    musicToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!musicUnlocked) {
+            unlockAndPlayMusic();
+            return;
+        }
+        if (musicPlaying) {
+            bgMusic.pause();
+            musicPlaying = false;
+            musicIconGlobal.classList.remove('fa-pause');
+            musicIconGlobal.classList.add('fa-music');
+            musicLabel.innerText = 'Melody';
+        } else {
+            bgMusic.play().then(() => {
+                musicPlaying = true;
+                musicIconGlobal.classList.remove('fa-music');
+                musicIconGlobal.classList.add('fa-pause');
+                musicLabel.innerText = 'Melody On';
+            }).catch(err => console.warn);
+        }
+    });
+    
+    // Intersection Observer for quote fade-in and cinematic scroll effects
+    const observerOptions = { threshold: 0.3, rootMargin: "0px 0px -20px 0px" };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    observer.observe(quoteSection);
+    
+    // Fade-scroll for continue button wrapper
+    const fadeElements = document.querySelectorAll('.fade-scroll');
+    const scrollObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('appear');
+                scrollObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+    fadeElements.forEach(el => scrollObserver.observe(el));
+    
+    // Continue Button: smooth transition and next page simulation
+    continueBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Add cinematic transition effect before redirecting
+        const transitionLayer = document.createElement('div');
+        transitionLayer.style.position = 'fixed';
+        transitionLayer.style.top = 0;
+        transitionLayer.style.left = 0;
+        transitionLayer.style.width = '100%';
+        transitionLayer.style.height = '100%';
+        transitionLayer.style.backgroundColor = '#000';
+        transitionLayer.style.zIndex = '9999';
+        transitionLayer.style.opacity = '0';
+        transitionLayer.style.transition = 'opacity 0.9s cubic-bezier(0.23, 1, 0.32, 1)';
+        transitionLayer.style.pointerEvents = 'none';
+        document.body.appendChild(transitionLayer);
+        setTimeout(() => { transitionLayer.style.opacity = '1'; }, 20);
+        setTimeout(() => {
+            // For Django integration, redirect to invitation page or RSVP
+            // If Django URL name defined, use '{% url "invitation_home" %}' else next page
+            window.location.href = "/invitation/";  // Placeholder for wedding details page
+            // Fallback alert if not in Django (Demo: show cinematic message)
+            if(window.location.pathname === '/' || window.location.pathname === '/save-the-date/') {
+                alert("✨ Welcome to the next chapter ✨\nRedirecting to Wedding Details page (integrate Django URL)");
+                // For demo, we can redirect to a next page but we'll keep simulation
+            }
+        }, 900);
+    });
+    
+    // Mobile performance guardrails (reduce particles/scroll transforms)
+    const isMobile = matchMedia('(max-width: 768px)').matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (isMobile) document.documentElement.classList.add('lux-mobile');
+    if (prefersReduced) document.documentElement.classList.add('lux-reduce-motion');
+
+    // Generate sparkling particles continuously (disabled on mobile/reduced motion)
+    const particlesContainer = document.getElementById('particlesContainer');
+    function createSparkle() {
+        const spark = document.createElement('div');
+        spark.classList.add('sparkle');
+        const size = 2 + Math.random() * 8;
+        spark.style.width = `${size}px`;
+        spark.style.height = `${size}px`;
+        spark.style.left = `${Math.random() * 100}%`;
+        spark.style.top = `${Math.random() * 100}%`;
+        spark.style.animationDuration = `${1 + Math.random() * 2}s`;
+        spark.style.animationDelay = `${Math.random() * 2}s`;
+        particlesContainer.appendChild(spark);
+        setTimeout(() => spark.remove(), 2000);
+    }
+
+    // Only run on non-mobile unless reduced motion
+    if (!isMobile && !prefersReduced) {
+        setInterval(() => {
+            for(let i=0; i<3; i++) createSparkle();
+        }, 400);
+    }
+
+    // additional floating glowing particles (larger glow)
+    function createGlowParticle() {
+        const glow = document.createElement('div');
+        glow.style.position = 'absolute';
+        glow.style.width = '4px';
+        glow.style.height = '4px';
+        glow.style.background = 'radial-gradient(circle, #f5e199, #d4af37)';
+        glow.style.borderRadius = '50%';
+        glow.style.left = `${Math.random() * 100}%`;
+        glow.style.top = `${Math.random() * 100}%`;
+        glow.style.filter = 'blur(2px)';
+        glow.style.opacity = '0.5';
+        glow.style.animation = 'sparklePulse 1.5s infinite alternate';
+        glow.style.pointerEvents = 'none';
+        particlesContainer.appendChild(glow);
+        setTimeout(() => glow.remove(), 1800);
+    }
+
+    if (!isMobile && !prefersReduced) {
+        setInterval(() => createGlowParticle(), 600);
+    }
+
+    // add smooth cinematic parallax scrolling for video section (disabled on mobile)
+    if (!isMobile && !prefersReduced) {
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            const videoHero = document.querySelector('.video-hero');
+            if(videoHero) {
+                videoHero.style.transform = `translateY(${scrolled * 0.2}px)`;
+                videoHero.style.opacity = 1 - (scrolled / 700);
+            }
+        }, { passive: true });
+    }
+
+    
+    // For play/pause icon sync if video ends manually
+    video.addEventListener('pause', () => {
+        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        videoPlaying = false;
+    });
+    video.addEventListener('play', () => {
+        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        videoPlaying = true;
+    });
+    
+    // Preload romantic ambiance and ensure smooth autoplay for video
+    video.play().catch(e => console.log("Video autoplay allowed by browser"));
+    
+    // Background music initial low volume
+    bgMusic.volume = 0.3;
+    
+    // Adjust video poster fallback image style
+    const posterUrl = "https://images.pexels.com/photos/3171811/pexels-photo-3171811.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
+    video.poster = posterUrl;
+    
+    // Let's add floating hearts or extra romantic text effect
+    const heroDiv = document.querySelector('.hero-content');
+    setInterval(() => {
+        if(Math.random() > 0.7) {
+            const floatingHeart = document.createElement('div');
+            floatingHeart.innerHTML = '❤️';
+            floatingHeart.style.position = 'absolute';
+            floatingHeart.style.fontSize = '1rem';
+            floatingHeart.style.left = `${Math.random() * 100}%`;
+            floatingHeart.style.bottom = '-20px';
+            floatingHeart.style.opacity = '0.5';
+            floatingHeart.style.animation = 'floatUpHeart 5s linear forwards';
+            floatingHeart.style.pointerEvents = 'none';
+            floatingHeart.style.color = '#ffb7c5';
+            heroDiv.appendChild(floatingHeart);
+            setTimeout(() => floatingHeart.remove(), 5000);
+        }
+    }, 1200);
+    
+    // keyframes for heart float
+    const styleSheet = document.createElement("style");
+    styleSheet.textContent = `
+        @keyframes floatUpHeart {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+            100% { transform: translateY(-300px) rotate(20deg); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(styleSheet);
+    
+    // Mobile touches: avoid video controls conflict
+    console.log("Cinematic Save The Date — rashmika vijay, December 12, 2026");
+    
+    // Django template compatibility: Add CSRF token via meta if needed
+    const csrfTokenMeta = document.createElement('meta');
+    csrfTokenMeta.name = "csrf-token";
+    csrfTokenMeta.content = "{{ csrf_token }}";
+    document.head.appendChild(csrfTokenMeta);
+    
+    // Optional: Video fallback to romantic high quality clip if primary sources fail,
+    // Additional: keep video loop
+    video.addEventListener('ended', () => {
+        video.currentTime = 0;
+        video.play().catch(e=>console.log);
+    });
+    
+    // smoothing for all text animations
+    window.onload = () => {
+        document.body.classList.add('loaded');
+        // Preload quote transition
+        setTimeout(() => {
+            if(window.scrollY === 0) {
+                window.scrollTo({ top: 1, behavior: 'smooth' });
+            }
+        }, 100);
+    };
+</script>
+
+<!-- Django Template Integration Notes:
+1. Place this template in 'templates/save_the_date.html'.
+2. In views.py: render with context or simple TemplateView.
+3. Background video URLs can be served from static or cloud.
+4. Continue button redirects to 'invitation:home' or RSVP page, adjust window.location.
+5. Add URL pattern for next step.
+6. Ensure CSRF token is rendered properly in Django context.
+7. For autoplay video, ensure browser permissions, but loop muted works great.
+-->
+</body>
+</html>

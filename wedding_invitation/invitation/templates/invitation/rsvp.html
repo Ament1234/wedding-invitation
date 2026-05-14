@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>RSVP | Rashmika & Vijay - Wedding Celebration</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Django CSRF Token support meta -->
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #fef5e8 0%, #fbe9d2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Romantic Animated Background with floating petals/glow */
+        .romantic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .bg-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 20%, rgba(255,235,210,0.7), rgba(250,225,190,0.9));
+        }
+        .floating-heart {
+            position: absolute;
+            color: rgba(212, 175, 55, 0.2);
+            font-size: 1.5rem;
+            animation: floatUp 15s infinite linear;
+            pointer-events: none;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0.3; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Glassmorphism Card Container */
+        .rsvp-container {
+            max-width: 650px;
+            width: 100%;
+            margin: 0 auto;
+            animation: fadeInScale 0.9s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.95) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .glass-form {
+            background: rgba(255, 248, 240, 0.75);
+            backdrop-filter: blur(16px);
+            border-radius: 48px;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            box-shadow: 0 35px 65px -20px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 215, 0, 0.2);
+            padding: 2rem 2rem 2.5rem;
+            transition: all 0.3s;
+        }
+
+        /* Header Section */
+        .rsvp-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .rsvp-header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #b47c2e, #d4af37, #c9a03d);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+        .rsvp-header p {
+            color: #6b4c2c;
+            font-weight: 500;
+            margin-top: 0.5rem;
+            border-top: 1px dashed #d4af37;
+            display: inline-block;
+            padding-top: 8px;
+        }
+        .guest-counter {
+            background: rgba(212, 175, 55, 0.2);
+            border-radius: 100px;
+            display: inline-block;
+            padding: 6px 16px;
+            font-size: 0.85rem;
+            margin-top: 12px;
+            font-weight: 600;
+            color: #a5712c;
+        }
+
+        /* Form Group Styles with Focus Animations */
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        .form-group i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #d4af37;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .form-group textarea ~ i {
+            top: 24px;
+            transform: none;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 18px 14px 48px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            border: 1.5px solid rgba(212, 175, 55, 0.4);
+            background: rgba(255, 255, 245, 0.85);
+            border-radius: 60px;
+            outline: none;
+            transition: all 0.25s ease;
+            color: #2e241f;
+            font-weight: 500;
+        }
+        textarea {
+            border-radius: 32px;
+            padding: 14px 18px 14px 48px;
+            resize: vertical;
+            min-height: 90px;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.2);
+            background: #ffffff;
+            transform: scale(1.01);
+        }
+        /* Attendance Radio Group */
+        .attendance-group {
+            background: rgba(255, 245, 232, 0.7);
+            border-radius: 60px;
+            padding: 0.8rem 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            justify-content: center;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            margin-bottom: 1.5rem;
+        }
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #5b3e28;
+        }
+        .radio-option input {
+            width: 20px;
+            height: 20px;
+            accent-color: #d4af37;
+            margin: 0;
+            padding: 0;
+        }
+        /* Food Preference select fix */
+        select {
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23d4af37" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+        }
+        /* Animated Submit Button */
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(95deg, #b8860b, #d4af37, #e7c45a);
+            border: none;
+            padding: 16px 20px;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: 2px;
+            color: #2b211b;
+            cursor: pointer;
+            transition: all 0.4s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+            margin-top: 0.8rem;
+        }
+        .submit-btn i {
+            transition: transform 0.3s;
+        }
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(95deg, #c99f2e, #e2bc5a, #f5d97a);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.3);
+        }
+        .submit-btn:hover i {
+            transform: translateX(6px);
+        }
+        .submit-btn:active {
+            transform: translateY(2px);
+        }
+
+        /* Total Guest Count Bar */
+        .total-guest-card {
+            margin-top: 1.5rem;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(8px);
+            border-radius: 80px;
+            padding: 0.8rem 1rem;
+            text-align: center;
+            color: #ffefcf;
+            font-weight: 600;
+            border: 1px solid #d4af37;
+            font-size: 0.9rem;
+        }
+        .total-guest-card span {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #ffdd99;
+            margin-right: 6px;
+        }
+
+        /* Success Popup (modern modal) */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.3s ease;
+        }
+        .popup-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .popup-card {
+            background: rgba(255, 248, 235, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 48px;
+            padding: 2rem 2rem;
+            max-width: 400px;
+            width: 85%;
+            text-align: center;
+            border: 1px solid #d4af37;
+            animation: popBounce 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+            box-shadow: 0 30px 50px rgba(0,0,0,0.3);
+        }
+        @keyframes popBounce {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .popup-card i {
+            font-size: 4rem;
+            color: #d4af37;
+            margin-bottom: 0.8rem;
+        }
+        .popup-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: #5a3e2a;
+        }
+        .popup-card p {
+            margin: 1rem 0;
+            color: #4c3b2c;
+        }
+        .close-popup {
+            background: #d4af37;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 1rem;
+            transition: 0.2s;
+        }
+        .close-popup:hover {
+            background: #c2a13a;
+            transform: scale(1.02);
+        }
+
+        /* Responsive */
+        @media (max-width: 550px) {
+            .glass-form { padding: 1.5rem; }
+            .rsvp-header h1 { font-size: 2rem; }
+            input, select, textarea { padding: 12px 16px 12px 44px; font-size: 0.9rem; }
+            .attendance-group { gap: 1rem; }
+            .radio-option { font-size: 0.9rem; }
+        }
+
+        /* error validation styling */
+        .error-message {
+            color: #c23b22;
+            font-size: 0.75rem;
+            margin-top: 5px;
+            margin-left: 12px;
+            display: none;
+        }
+        .form-group.error .error-message {
+            display: block;
+        }
+        .form-group.error input, 
+        .form-group.error select {
+            border-color: #e07a5f;
+            background: #fff6f2;
+        }
+        small.hint {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.7rem;
+            color: #a77c3c;
+            margin-left: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="romantic-bg">
+    <div class="bg-overlay"></div>
+    <!-- dynamic floating hearts & petals via JS -->
+</div>
+
+<div class="rsvp-container">
+    <div class="glass-form">
+        <div class="rsvp-header">
+            <h1><i class="fas fa-envelope-open-text"></i> RSVP</h1>
+            <p>Kindly grace us with your presence</p>
+            <div class="guest-counter" id="totalGuestDisplay">
+                <i class="fas fa-users"></i> Total Guests Confirmed: <span id="totalCountSpan">0</span>
+            </div>
+        </div>
+
+        <!-- RSVP Form -->
+        <form id="rsvpForm" method="post" action="{% url 'rsvp_submit' %}" novalidate>
+            {% csrf_token %}
+            <div class="form-group" id="group-name">
+                <i class="fas fa-user-circle"></i>
+                <input type="text" name="guest_name" id="guestName" placeholder="Full Name *" required>
+                <div class="error-message">Please enter your full name</div>
+            </div>
+
+            <div class="form-group" id="group-phone">
+                <i class="fas fa-phone-alt"></i>
+                <input type="tel" name="phone" id="phone" placeholder="Mobile Number *" required>
+                <div class="error-message">Enter a valid 10-digit mobile number</div>
+                <small class="hint">e.g., 9876543210</small>
+            </div>
+
+            <div class="form-group" id="group-email">
+                <i class="fas fa-envelope"></i>
+                <input type="email" name="email" id="email" placeholder="Email Address *" required>
+                <div class="error-message">Valid email required</div>
+            </div>
+
+            <div class="form-group" id="group-guests">
+                <i class="fas fa-user-friends"></i>
+                <input type="number" name="num_guests" id="numGuests" min="1" max="10" value="1" required>
+                <div class="error-message">Number of guests (including you)</div>
+            </div>
+
+            <div class="form-group" id="group-food">
+                <i class="fas fa-utensils"></i>
+                <select name="food_preference" id="foodPref" required>
+                    <option value="" disabled selected>Select Food Preference *</option>
+                    <option value="Vegetarian">🥗 Vegetarian</option>
+                    <option value="Non-Vegetarian">🍗 Non-Vegetarian</option>
+                    <option value="Vegan">🌱 Vegan</option>
+                </select>
+                <div class="error-message">Please select food preference</div>
+            </div>
+
+            <!-- Attendance Options -->
+            <div class="attendance-group">
+                <label class="radio-option">
+                    <input type="radio" name="attendance" value="Will Attend" checked> <i class="fas fa-check-circle"></i> Will Attend
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="attendance" value="Will Not Attend"> <i class="fas fa-times-circle"></i> Will Not Attend
+                </label>
+            </div>
+
+            <div class="form-group">
+                <i class="fas fa-heart"></i>
+                <textarea name="personal_message" id="personalMsg" placeholder="Personal message for the couple (optional)"></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitRsvpBtn">
+                <span>Confirm Your Presence</span> <i class="fas fa-paper-plane"></i>
+            </button>
+        </form>
+
+        <!-- Total Guest Count Indicator (frontend dynamic based on submissions) -->
+        <div class="total-guest-card">
+            <i class="fas fa-chart-line"></i> <span id="liveTotalCount">0</span> guests will celebrate with us
+        </div>
+    </div>
+</div>
+
+<!-- Success Popup Modal -->
+<div id="successPopup" class="popup-overlay">
+    <div class="popup-card">
+        <i class="fas fa-check-circle"></i>
+        <h3>Thank You!</h3>
+        <p>Your RSVP has been recorded. We can't wait to celebrate with you! ✨</p>
+        <button class="close-popup" id="closePopupBtn">Wonderful</button>
+    </div>
+</div>
+
+<script>
+    // Django integration note: This template uses CSRF token and endpoints.
+    // In development, the form action expects a Django URL "rsvp_submit".
+    // For static demo / non-Django, we intercept with JavaScript, simulate backend store using localStorage + fetch simulation.
+    // But fully functional for backend: we can handle via fetch API with Django endpoint.
+    // Provide both: real fetch to Django if url exists, else fallback to local storage simulation for demo.
+    // Admin total guest count feature: we keep live total from indexed db simulation + backend.
+    
+    let totalGuestCount = 0;
+    const totalSpan = document.getElementById('totalCountSpan');
+    const liveTotalSpan = document.getElementById('liveTotalCount');
+    
+    // Helper: Update total count displays
+    function updateTotalGuestUI() {
+        totalSpan.innerText = totalGuestCount;
+        liveTotalSpan.innerText = totalGuestCount;
+    }
+    
+    // Load existing total from server or localStorage for demo
+    async function fetchTotalGuestCount() {
+        // In real Django integration: fetch('/api/rsvp-total/')
+        // For demo, fetch from localStorage or simulate starting count.
+        let storedTotal = localStorage.getItem('wedding_total_guests');
+        if (storedTotal !== null) {
+            totalGuestCount = parseInt(storedTotal) || 0;
+        } else {
+            // dummy initial guests from mock backend can be 0, but we simulate admin saved total
+            totalGuestCount = 0;
+        }
+        updateTotalGuestUI();
+    }
+    
+    // Save total guest count to localStorage (for demo consistency) and to backend via API when real
+    function persistTotalGuestCount(newTotal) {
+        totalGuestCount = newTotal;
+        localStorage.setItem('wedding_total_guests', totalGuestCount);
+        updateTotalGuestUI();
+        // In real django: fetch('/api/update-total/', { method: 'POST', body: JSON.stringify({total: totalGuestCount}) })
+    }
+    
+    // Show success popup
+    function showSuccessPopup() {
+        const popup = document.getElementById('successPopup');
+        popup.classList.add('active');
+        // auto close after 4 sec?
+        setTimeout(() => {
+            popup.classList.remove('active');
+        }, 4000);
+    }
+    
+    // Client-side form validation
+    function validateForm() {
+        let isValid = true;
+        const name = document.getElementById('guestName').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const numGuests = document.getElementById('numGuests').value;
+        const foodPref = document.getElementById('foodPref').value;
+        const attendance = document.querySelector('input[name="attendance"]:checked').value;
+        
+        // reset errors
+        document.querySelectorAll('.form-group').forEach(g => g.classList.remove('error'));
+        
+        if (name === "") {
+            document.getElementById('group-name').classList.add('error');
+            isValid = false;
+        }
+        const phoneRegex = /^[0-9]{10}$/;
+        if (!phoneRegex.test(phone)) {
+            document.getElementById('group-phone').classList.add('error');
+            isValid = false;
+        }
+        const emailRegex = /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/;
+        if (!emailRegex.test(email)) {
+            document.getElementById('group-email').classList.add('error');
+            isValid = false;
+        }
+        if (attendance === 'Will Attend') {
+            const guestCount = parseInt(numGuests);
+            if (isNaN(guestCount) || guestCount < 1 || guestCount > 10) {
+                document.getElementById('group-guests').classList.add('error');
+                isValid = false;
+            }
+            if (!foodPref) {
+                document.getElementById('group-food').classList.add('error');
+                isValid = false;
+            }
+        }
+        return isValid;
+    }
+
+    function updateAttendanceFields() {
+        const attendanceValue = document.querySelector('input[name="attendance"]:checked').value;
+        const guestField = document.getElementById('numGuests');
+        const foodField = document.getElementById('foodPref');
+        const foodGroup = document.getElementById('group-food');
+
+        if (attendanceValue === 'Will Not Attend') {
+            guestField.disabled = true;
+            foodField.disabled = true;
+            guestField.value = '0';
+            foodField.value = '';
+            foodGroup.classList.remove('error');
+            document.getElementById('group-guests').classList.remove('error');
+        } else {
+            guestField.disabled = false;
+            foodField.disabled = false;
+            if (guestField.value === '0') {
+                guestField.value = '1';
+            }
+        }
+    }
+    
+    // Submit handler: send to Django backend, on success update total guests & show popup
+    const rsvpForm = document.getElementById('rsvpForm');
+    rsvpForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!validateForm()) {
+            // show subtle shake or just error highlight
+            return;
+        }
+        
+        const submitBtn = document.getElementById('submitRsvpBtn');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Sending...';
+        submitBtn.disabled = true;
+        
+        // Gather form data
+        const formData = new FormData(rsvpForm);
+        const attendance = document.querySelector('input[name="attendance"]:checked').value;
+        formData.set('attendance', attendance);
+
+        if (attendance === 'Will Not Attend') {
+            formData.set('num_guests', '0');
+            formData.set('food_preference', '');
+        }
+        
+        const guestCountValue = parseInt(formData.get('num_guests'));
+        
+        // For Django integration: post to actual endpoint
+        // We attempt to fetch, if fails or for demo integration fallback simulate localStorage success.
+        try {
+            const response = await fetch(rsvpForm.action, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+            });
+            if (response.ok) {
+                const data = await response.json();
+                // success: update total guest count from backend response (server returns new total)
+                if (data.new_total_guests !== undefined) {
+                    totalGuestCount = data.new_total_guests;
+                    persistTotalGuestCount(totalGuestCount);
+                } else if (attendance === 'Will Attend') {
+                    // if server didn't return total but we need to increment
+                    totalGuestCount += guestCountValue;
+                    persistTotalGuestCount(totalGuestCount);
+                }
+                showSuccessPopup();
+                rsvpForm.reset();
+                document.querySelector('input[name="attendance"][value="Will Attend"]').checked = true;
+                document.getElementById('numGuests').value = '1';
+            } else {
+                throw new Error('Server error');
+            }
+        } catch (err) {
+            // Fallback for demonstration / development without Django backend (static demo)
+            console.warn("Django backend not reachable, fallback to localStorage simulation");
+            const attendanceVal = attendance;
+            if (attendanceVal === 'Will Attend') {
+                totalGuestCount += guestCountValue;
+                persistTotalGuestCount(totalGuestCount);
+            }
+            // store rsvp entries in localStorage for admin view simulation
+            let rsvpRecords = JSON.parse(localStorage.getItem('wedding_rsvp_records') || '[]');
+            const newRecord = {
+                id: Date.now(),
+                guest_name: formData.get('guest_name'),
+                phone: formData.get('phone'),
+                email: formData.get('email'),
+                num_guests: guestCountValue,
+                food_preference: formData.get('food_preference'),
+                attendance: attendanceVal,
+                personal_message: formData.get('personal_message') || '',
+                created_at: new Date().toISOString()
+            };
+            rsvpRecords.push(newRecord);
+            localStorage.setItem('wedding_rsvp_records', JSON.stringify(rsvpRecords));
+            showSuccessPopup();
+            rsvpForm.reset();
+            document.querySelector('input[name="attendance"][value="Will Attend"]').checked = true;
+            document.getElementById('numGuests').value = '1';
+        }
+        
+
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    });
+    
+    // Listen for attendance changes and adjust guest/food fields
+    const attendanceRadios = document.querySelectorAll('input[name="attendance"]');
+    attendanceRadios.forEach((radio) => {
+        radio.addEventListener('change', updateAttendanceFields);
+    });
+    updateAttendanceFields();
+
+    // Popup close button
+    const closePopupBtn = document.getElementById('closePopupBtn');
+    const popup = document.getElementById('successPopup');
+
+    if (closePopupBtn && popup) {
+        closePopupBtn.addEventListener('click', () => {
+            popup.classList.remove('active');
+            try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) { window.scrollTo(0, 0); }
+        });
+        popup.addEventListener('click', (e) => {
+            if (e.target === popup) popup.classList.remove('active');
+        });
+    }
+    
+    // Load initial guest count from localStorage or backend simulation
+    fetchTotalGuestCount();
+    
+    // floating hearts & flower background animation
+    const bgContainer = document.querySelector('.romantic-bg');
+    function createFloatingElement() {
+        const el = document.createElement('div');
+        const icons = ['❤️', '💖', '🌸', '🌼', '✨', '🌺'];
+        el.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+        el.classList.add('floating-heart');
+        el.style.left = Math.random() * 100 + '%';
+        el.style.fontSize = 0.8 + Math.random() * 1.8 + 'rem';
+        el.style.animationDuration = 8 + Math.random() * 12 + 's';
+        el.style.opacity = 0.2 + Math.random() * 0.4;
+        bgContainer.appendChild(el);
+        setTimeout(() => el.remove(), 15000);
+    }
+    setInterval(() => createFloatingElement(), 700);
+    for(let i=0;i<25;i++) setTimeout(createFloatingElement, i*200);
+    
+    // live focus animations: icons color change
+    const inputs = document.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        input.addEventListener('focus', () => {
+            const parent = input.closest('.form-group');
+            if(parent) {
+                const icon = parent.querySelector('i');
+                if(icon) icon.style.color = '#f5c542';
+            }
+        });
+        input.addEventListener('blur', () => {
+            const parent = input.closest('.form-group');
+            if(parent) {
+                const icon = parent.querySelector('i');
+                if(icon) icon.style.color = '#d4af37';
+            }
+        });
+    });
+    
+    // Admin feature mock: to view total attendees info in console (or localStorage)
+    console.log("RSVP Module Loaded. Django Admin can manage RSVP records via `/admin/` endpoint");
+</script>
+
+<!-- Backend Integration Notes (Django):
+1. Add URL pattern: path('rsvp/submit/', views.rsvp_submit, name='rsvp_submit')
+2. In views.py: handle POST, save RSVP model, return JSON {"status": "success", "new_total_guests": total}
+3. Define model RSVP with fields: guest_name, phone, email, num_guests, food_preference, attendance, personal_message, created_at.
+4. Admin panel: list_display, total guests aggregator.
+5. Add CSRF token context.
+6. For total guest count, aggregate sum of num_guests where attendance='Will Attend'.
+-->
+</body>
+</html>

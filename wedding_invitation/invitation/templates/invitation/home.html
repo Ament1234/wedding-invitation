@@ -1,0 +1,790 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Rashmika & Vijay | A Love Story — Luxury Wedding Invitation</title>
+    <!-- Google Fonts: Premium Elegance -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(145deg, #fffaf5 0%, #fdf6ee 50%, #f9f1e7 100%);
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* ========== CUSTOM CURSOR GLOW ========== */
+        .cursor-glow {
+            position: fixed;
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, rgba(245, 215, 170, 0.12) 0%, rgba(245, 215, 170, 0.05) 50%, transparent 80%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.08s linear;
+            will-change: transform;
+        }
+
+        /* ========== LOADING SCREEN ========== */
+        .luxury-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fffaf5 0%, #fef5ea 100%);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 32px;
+            transition: opacity 1.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .monogram {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #d4af37, #f5e7b2, #e8c97a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 8px;
+            animation: monogramGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes monogramGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(212,175,55,0.2); }
+            50% { text-shadow: 0 0 50px rgba(212,175,55,0.5); }
+        }
+
+        .progress-ring {
+            width: 70px;
+            height: 70px;
+        }
+
+        .progress-ring svg {
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring circle {
+            fill: none;
+            stroke: url(#goldGrad);
+            stroke-width: 3;
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            animation: drawProgress 2.2s ease-out forwards;
+        }
+
+        @keyframes drawProgress {
+            to { stroke-dashoffset: 0; }
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .main-wrapper {
+            opacity: 0;
+            transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ========== SPLIT HERO SECTION ========== */
+        .hero-split {
+            min-height: 100vh;
+            display: flex;
+            flex-wrap: wrap;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Left Side - Text Section */
+        .hero-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 5rem;
+            position: relative;
+            z-index: 5;
+            background: rgba(255, 250, 245, 0.4);
+            backdrop-filter: blur(2px);
+        }
+
+        .pre-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            letter-spacing: 6px;
+            color: #c9a96e;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #b8923a, #d4af37, #f5e2a4, #e1c16e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+            margin: 0.5rem 0;
+            letter-spacing: -0.02em;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .name-accent {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: #b68b40;
+            letter-spacing: 4px;
+            margin: 0.8rem 0;
+            opacity: 0;
+        }
+
+        .subtitle {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            color: #7a6852;
+            font-weight: 300;
+            max-width: 400px;
+            margin: 1rem 0 2rem;
+            line-height: 1.6;
+            opacity: 0;
+        }
+
+        .date-elegant {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: #c9a96e;
+            letter-spacing: 2px;
+            border-top: 1px solid rgba(212,175,55,0.3);
+            display: inline-block;
+            padding-top: 15px;
+            opacity: 0;
+        }
+
+        /* Right Side - 3D Floating Photo */
+        .hero-visual {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 500px;
+            perspective: 1200px;
+        }
+
+        .floating-photo-card {
+            position: relative;
+            width: 80%;
+            max-width: 480px;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+            will-change: transform;
+        }
+
+        .photo-frame-3d {
+            position: relative;
+            border-radius: 32px;
+            background: linear-gradient(135deg, rgba(255,255,245,0.9), rgba(245,235,220,0.7));
+            padding: 12px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 45px 65px -30px rgba(0,0,0,0.2), 0 0 0 1px rgba(212,175,55,0.3), 0 0 0 12px rgba(255,250,240,0.5);
+            transition: all 0.5s;
+        }
+
+        .floating-photo {
+            width: 100%;
+            border-radius: 24px;
+            display: block;
+            object-fit: cover;
+            aspect-ratio: 3/4;
+            filter: brightness(1.02) contrast(1.02);
+            box-shadow: 0 20px 35px -15px rgba(0,0,0,0.2);
+        }
+
+        /* Floating decorative elements around photo */
+        .floral-deco {
+            position: absolute;
+            pointer-events: none;
+            z-index: 12;
+        }
+
+        .deco-rose {
+            top: -30px;
+            right: -20px;
+            font-size: 2.8rem;
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.1));
+            animation: floatRose 5s ease-in-out infinite;
+        }
+
+        .deco-pearl {
+            bottom: -25px;
+            left: -25px;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #fff, #f5e6c8);
+            border-radius: 50%;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.1), inset -2px -2px 5px rgba(0,0,0,0.05);
+            animation: floatPearl 4.5s infinite;
+        }
+
+        .deco-ring {
+            top: 40%;
+            left: -40px;
+            font-size: 2rem;
+            color: #d4af37;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+            animation: spinRing 8s infinite linear;
+        }
+
+        @keyframes floatRose {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(5deg); }
+        }
+
+        @keyframes floatPearl {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(8px, -8px) scale(1.05); }
+        }
+
+        @keyframes spinRing {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Glassmorphism Cards floating */
+        .glass-badge {
+            position: absolute;
+            background: rgba(255, 250, 240, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 60px;
+            padding: 8px 20px;
+            border: 1px solid rgba(212,175,55,0.4);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.9rem;
+            color: #b68b40;
+            white-space: nowrap;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            animation: badgeFloat 4s infinite alternate;
+        }
+
+        .badge-1 { top: 15%; right: -10px; }
+        .badge-2 { bottom: 20%; left: -30px; }
+        @keyframes badgeFloat {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-10px); }
+        }
+
+        /* ========== QUOTE SECTION ========== */
+        .quote-section {
+            padding: 6rem 2rem;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(255,250,245,0.8), #fffdf9);
+        }
+
+        .quote-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.5rem, 5vw, 2.4rem);
+            font-style: italic;
+            color: #8b7658;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        /* ========== LOVE STORY SHOWCASE ========== */
+        .showcase {
+            padding: 4rem 2rem 6rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .story-card {
+            background: rgba(255, 252, 245, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 36px;
+            padding: 2rem;
+            width: 300px;
+            text-align: center;
+            border: 1px solid rgba(212,175,55,0.3);
+            transition: all 0.5s;
+            transform: translateY(40px);
+            opacity: 0;
+        }
+
+        .story-card.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .story-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: rgba(212,175,55,0.6);
+            box-shadow: 0 30px 40px -20px rgba(0,0,0,0.15);
+        }
+
+        /* ========== CTA BUTTON ========== */
+        .cta-container {
+            text-align: center;
+            padding: 2rem 2rem 6rem;
+        }
+
+        .luxury-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            background: rgba(255, 250, 240, 0.7);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(212,175,55,0.6);
+            padding: 18px 52px;
+            border-radius: 80px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #b68b40;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: 0 10px 25px -10px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .luxury-btn i {
+            transition: transform 0.4s;
+        }
+
+        .luxury-btn:hover {
+            transform: scale(1.05);
+            border-color: #d4af37;
+            color: #a0762c;
+            box-shadow: 0 20px 35px -10px rgba(212,175,55,0.4);
+            letter-spacing: 2px;
+        }
+
+        .luxury-btn:hover i {
+            transform: translateX(8px);
+        }
+
+        /* ========== MUSIC PLAYER ========== */
+        .music-glass {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 200;
+            background: rgba(255, 248, 240, 0.8);
+            backdrop-filter: blur(16px);
+            border-radius: 100px;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border: 1px solid rgba(212,175,55,0.4);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.4s;
+        }
+
+        .music-glass:hover {
+            transform: scale(1.03);
+            border-color: #d4af37;
+        }
+
+        .vinyl-icon {
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, #d4af37, #b68b40);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            animation: vinylSpin 4s linear infinite;
+            animation-play-state: paused;
+        }
+
+        .music-glass.playing .vinyl-icon {
+            animation-play-state: running;
+        }
+
+        @keyframes vinylSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* ========== PARTICLES & SPARKLES ========== */
+        .sparkle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 30;
+        }
+
+        /* ========== PERFORMANCE + MOBILE RESPONSIVE (mobile-first) ========== */
+        :root{ --lux-pad: clamp(1rem, 3vw, 2.5rem); }
+        .hero-text{ padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 5rem); padding-top: calc(var(--lux-pad) + env(safe-area-inset-top)); }
+        .hero-split{ padding-bottom: env(safe-area-inset-bottom); }
+
+        /* Disable heavy effects on small screens by default */
+        .cursor-glow, .sparkle-canvas{ display:none; }
+        .floating-photo-card{ transition: transform 0.25s ease-out; }
+        .photo-frame-3d{ backdrop-filter: blur(8px); }
+        .glass-badge{ animation: none; }
+        .deco-rose{ animation-duration: 7s; }
+        .deco-ring{ animation-duration: 10s; }
+
+        @media (min-width: 481px) {
+            .hero-text{ padding: clamp(2.4rem, 4.2vw, 4rem) clamp(1.8rem, 4vw, 5rem); }
+            .floating-photo-card{ width: 70%; }
+        }
+
+        /* Tablet */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .subtitle{ max-width: 520px; }
+        }
+
+        /* Desktop split layout */
+        @media (min-width: 769px) {
+            .hero-split{ flex-direction: row; }
+            .hero-text{ text-align: left; align-items: flex-start; }
+            .floating-photo-card{ width: 80%; }
+        }
+
+        /* Large screens */
+        @media (min-width: 1200px) {
+            .hero-visual{ min-height: 560px; }
+        }
+
+        @media (max-width: 550px) {
+            .floating-photo-card { width: 92%; }
+            .luxury-btn { padding: 14px 32px; font-size: 1.15rem; min-height:44px; }
+            .music-glass { bottom: calc(16px + env(safe-area-inset-bottom)); left: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+<div class="sparkle-canvas" id="sparkleCanvas"></div>
+
+<!-- Luxury Loading Screen -->
+<div class="luxury-loader" id="loader">
+    <div class="monogram">R❤️V</div>
+    <div class="progress-ring">
+        <svg viewBox="0 0 90 90">
+            <defs>
+                <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#d4af37"/>
+                    <stop offset="100%" stop-color="#f5e2a4"/>
+                </linearGradient>
+            </defs>
+            <circle cx="45" cy="45" r="42" stroke="url(#goldGrad)" stroke-width="3" fill="none"/>
+        </svg>
+    </div>
+    <p style="color:#b68b40; font-family:'Poppins'; font-size:0.8rem; letter-spacing:3px;">Eternal Beginnings</p>
+</div>
+
+<!-- Main Content -->
+<div class="main-wrapper" id="mainContent">
+    <!-- Split Hero Section -->
+    <div class="hero-split">
+        <!-- Left Text Section -->
+        <div class="hero-text">
+            <div class="pre-title" id="preTitle">Together with their families</div>
+            <h1 class="main-title" id="mainTitle">Rashmika <span style="font-size:0.8em;">&</span> Vijay</h1>
+            <div class="name-accent" id="nameAccent">The Wedding</div>
+            <div class="subtitle" id="subtitle">Invite you to celebrate their forever — a day where love becomes legacy, and two souls become one.</div>
+            <div class="date-elegant" id="dateText">may 15, 2026 · The Grand Palace, Jaipur</div>
+        </div>
+
+        <!-- Right Side 3D Floating Photo -->
+        <div class="hero-visual" id="visualContainer">
+            <div class="floating-photo-card" id="floatingCard">
+                <div class="photo-frame-3d">
+                    <img class="floating-photo" src="{% static 'images/profile.webp' %}" 
+                         alt="rashmika vijay" onerror="this.src='https://images.unsplash.com/photo-1519741497674-611481863552?w=800&auto=format';">
+                </div>
+                <!-- Decorative Elements -->
+                <div class="floral-deco deco-rose">🌹</div>
+                <div class="floral-deco deco-pearl"></div>
+                <div class="floral-deco deco-ring">💍</div>
+                <div class="glass-badge badge-1">✨ Forever begins</div>
+                <div class="glass-badge badge-2">❤️ Save the Date</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Romantic Quote Section -->
+    <div class="quote-section" id="quoteSection">
+        <p class="quote-text">“True love is not about perfection, it is hidden in the beautiful imperfections of two souls becoming one.”</p>
+    </div>
+
+    <!-- Couple Showcase Story Cards -->
+    <div class="showcase" id="showcase">
+        <div class="story-card" data-delay="0">
+            <i class="fas fa-feather-alt" style="font-size: 2.2rem; color:#d4af37;"></i>
+            <h3 style="font-family:'Playfair Display'; margin:1rem 0;">Engagement</h3>
+            <p style="color:#7a6852;">A magical evening under the stars — the beginning of our forever.</p>
+        </div>
+        <div class="story-card" data-delay="0.2">
+            <i class="fas fa-ring" style="font-size: 2.2rem; color:#d4af37;"></i>
+            <h3 style="font-family:'Playfair Display'; margin:1rem 0;">Wedding Ceremony</h3>
+            <p style="color:#7a6852;">may 15, 2026 — Where vows become eternal promises.</p>
+        </div>
+        <div class="story-card" data-delay="0.4">
+            <i class="fas fa-champagne-glasses" style="font-size: 2.2rem; color:#d4af37;"></i>
+            <h3 style="font-family:'Playfair Display'; margin:1rem 0;">Grand Reception</h3>
+            <p style="color:#7a6852;">A night of music, dance, and celebration under the golden lights.</p>
+        </div>
+    </div>
+
+    <!-- CTA Button -->
+    <div class="cta-container">
+        <button class="luxury-btn" id="openInvitationBtn">
+            Open Invitation <i class="fas fa-arrow-right"></i>
+        </button>
+    </div>
+</div>
+
+<!-- Music Player -->
+        <div class="music-glass" id="musicPlayer" role="button" aria-label="Toggle music">
+    <div class="vinyl-icon"><i class="fas fa-music"></i></div>
+    <span style="font-family:'Poppins'; font-size:0.8rem; color:#a0762c;">Melody of Love</span>
+</div>
+
+
+<audio id="bgAudio" loop autoplay>
+    <source src="{% static 'audio/musicword-fall-in-love-264570.mp3' %}" type="audio/mpeg">
+</audio>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+    (function() {
+        // Loader
+        const loader = document.getElementById('loader');
+        const mainWrapper = document.getElementById('mainContent');
+        setTimeout(() => {
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+                mainWrapper.style.opacity = '1';
+                // Trigger text animations after load
+                animateInitialText();
+            startSparkles();
+            // On mobile sparkles are disabled by guardrails; keep luxury feel without lag.
+
+            }, 400);
+        }, 2500);
+
+        // GSAP Text & Card Animations
+        function animateInitialText() {
+            const tl = gsap.timeline();
+            tl.to('.pre-title', { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" })
+              .to('.main-title', { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" }, "-=0.4")
+              .to('.name-accent', { opacity: 1, y: 0, duration: 0.6 }, "-=0.5")
+              .to('.subtitle', { opacity: 1, y: 0, duration: 0.7 }, "-=0.3")
+              .to('.date-elegant', { opacity: 1, y: 0, duration: 0.6 }, "-=0.2");
+            
+            // GSAP ScrollTrigger for story cards
+            gsap.registerPlugin(ScrollTrigger);
+            document.querySelectorAll('.story-card').forEach(card => {
+                gsap.to(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    },
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.9,
+                    ease: "back.out(0.3)"
+                });
+            });
+            
+            // Quote section animation
+            gsap.from('.quote-text', {
+                scrollTrigger: { trigger: '.quote-section', start: "top 80%" },
+                opacity: 0,
+                y: 40,
+                duration: 1.2
+            });
+        }
+
+        // Mobile performance guardrails
+        const isMobile = matchMedia('(max-width: 768px)').matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // 3D Floating Photo Mouse Interaction (disable on mobile)
+        const card = document.getElementById('floatingCard');
+        const visualContainer = document.getElementById('visualContainer');
+        if (card && visualContainer && !isMobile && !prefersReduced) {
+            visualContainer.addEventListener('mousemove', (e) => {
+                const rect = visualContainer.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                const rotateY = x * 10;
+                const rotateX = y * -6;
+                card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+            }, { passive: true });
+            visualContainer.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+            });
+        } else if (card) {
+            card.style.transform = 'none';
+        }
+
+        // Cursor Glow Effect (disable on mobile)
+        const cursorGlow = document.getElementById('cursorGlow');
+        if (cursorGlow && !isMobile && !prefersReduced) {
+            document.addEventListener('mousemove', (e) => {
+                cursorGlow.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+            }, { passive: true });
+        }
+
+        // Sparkle Generation (reduce on mobile)
+        function startSparkles() {
+            if (isMobile || prefersReduced) return;
+            const canvas = document.getElementById('sparkleCanvas');
+            let count = 0;
+            const maxSparks = 24;
+            const interval = setInterval(() => {
+                if (count >= maxSparks) {
+                    clearInterval(interval);
+                    return;
+                }
+                count += 1;
+                const spark = document.createElement('div');
+                spark.style.position = 'absolute';
+                spark.style.width = '4px';
+                spark.style.height = '4px';
+                spark.style.background = 'radial-gradient(circle, #f5e2a4, #d4af37)';
+                spark.style.borderRadius = '50%';
+                spark.style.left = Math.random() * 100 + '%';
+                spark.style.top = Math.random() * 100 + '%';
+                spark.style.opacity = '0.6';
+                spark.style.filter = 'blur(1px)';
+                spark.style.animation = 'sparkleFade 1.2s forwards';
+                canvas.appendChild(spark);
+                setTimeout(() => spark.remove(), 1200);
+            }, 900);
+        }
+
+        const styleSheet = document.createElement("style");
+        styleSheet.textContent = `
+            @keyframes sparkleFade {
+                0% { transform: scale(0); opacity: 0; }
+                50% { transform: scale(1.5); opacity: 0.9; }
+                100% { transform: scale(0); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+
+        // Floating Blob Parallax (disable on mobile)
+        const heroBg = document.querySelector('.hero-split');
+        if (heroBg && !isMobile && !prefersReduced) {
+            window.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth) * 14;
+                const y = (e.clientY / window.innerHeight) * 14;
+                heroBg.style.backgroundPosition = `${x}% ${y}%`;
+            }, { passive: true });
+        }
+
+
+        // Music Controller
+        const bgAudio = document.getElementById('bgAudio');
+        const musicPlayer = document.getElementById('musicPlayer');
+        let isPlaying = false;
+        let unlocked = false;
+
+        function playMusic() {
+            if (unlocked) return;
+            bgAudio.volume = 0.25;
+            bgAudio.play().then(() => {
+                isPlaying = true;
+                musicPlayer.classList.add('playing');
+                unlocked = true;
+            }).catch(e => console.log('user interaction needed'));
+        }
+
+        function globalUnlock() {
+            playMusic();
+            document.removeEventListener('click', globalUnlock);
+            document.removeEventListener('touchstart', globalUnlock);
+        }
+
+        document.addEventListener('click', globalUnlock);
+        document.addEventListener('touchstart', globalUnlock);
+
+        musicPlayer.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!unlocked) { playMusic(); return; }
+            if (isPlaying) {
+                bgAudio.pause();
+                isPlaying = false;
+                musicPlayer.classList.remove('playing');
+            } else {
+                bgAudio.play().then(() => {
+                    isPlaying = true;
+                    musicPlayer.classList.add('playing');
+                }).catch(err => console.warn);
+            }
+        });
+
+        // Enter Invitation Button with smooth transition
+        const enterBtn = document.getElementById('openInvitationBtn');
+        if (enterBtn) {
+            enterBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                const transitionLayer = document.createElement('div');
+                transitionLayer.style.position = 'fixed';
+                transitionLayer.style.top = '0';
+                transitionLayer.style.left = '0';
+                transitionLayer.style.width = '100%';
+                transitionLayer.style.height = '100%';
+                transitionLayer.style.backgroundColor = '#fffaf5';
+                transitionLayer.style.zIndex = '9999';
+                transitionLayer.style.opacity = '0';
+                transitionLayer.style.pointerEvents = 'none';
+                transitionLayer.style.transition = 'opacity 0.8s ease';
+                document.body.appendChild(transitionLayer);
+                requestAnimationFrame(() => {
+                    transitionLayer.style.opacity = '1';
+                });
+                setTimeout(() => {
+                    window.location.href = '/details/';
+                }, 900);
+            });
+        }
+
+        // Initial manual set for background smoothness
+        bgAudio.volume = 0.25;
+    })();
+</script>
+</body>
+</html>

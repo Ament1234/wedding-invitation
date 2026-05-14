@@ -1,0 +1,668 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>rashmika vijay | Wedding Details – A Royal Affair</title>
+    <!-- Google Fonts: Elegant & Modern -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Swiper.js for Gallery Slider -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #fef9f0;
+            font-family: 'Montserrat', sans-serif;
+            color: #3e2a2a;
+            overflow-x: hidden;
+        }
+
+        /* Romantic Floral Animated Background */
+        .floral-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at 10% 20%, rgba(255,245,235,0.6) 0%, #fdeff2 100%);
+            z-index: -2;
+        }
+        .floating-flowers {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .flower-particle {
+            position: absolute;
+            font-size: 1.6rem;
+            opacity: 0.2;
+            animation: floatFlower 25s linear infinite;
+            color: #e8b5b5;
+        }
+        @keyframes floatFlower {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.2; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+            position: relative;
+        }
+
+        /* Glassmorphism Card Base */
+        .glass-card {
+            background: rgba(255, 248, 240, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 48px;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            box-shadow: 0 25px 40px -20px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,215,0,0.2);
+            padding: 2rem 2rem;
+            transition: all 0.4s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 35px 45px -20px rgba(0,0,0,0.3), 0 0 0 2px rgba(212,175,55,0.4);
+            background: rgba(255, 250, 242, 0.85);
+        }
+
+        /* Couple Names Section (Hero) */
+        .couple-hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeSlideUp 1s ease-out;
+        }
+        .couple-names {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 9vw, 5.5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, #b8860b, #d4af37, #c9a03d);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 12px rgba(0,0,0,0.05);
+        }
+        .divider {
+            width: 120px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #d4af37, #f3cf7a, #d4af37, transparent);
+            margin: 1rem auto;
+        }
+        .tagline {
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: #7c5e3a;
+            letter-spacing: 2px;
+        }
+
+        /* Grid Layout */
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 2.5rem 0;
+        }
+
+        /* Info Cards (Date, Venue, Time) */
+        .info-card {
+            text-align: center;
+        }
+        .info-icon {
+            font-size: 2.4rem;
+            color: #d4af37;
+            margin-bottom: 0.8rem;
+        }
+        .info-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #5e3a2e;
+        }
+        .info-text {
+            font-size: 1rem;
+            margin-top: 0.6rem;
+            color: #3a2a22;
+            font-weight: 500;
+        }
+
+        /* Countdown Timer */
+        .countdown-section {
+            margin: 2rem 0 3rem;
+        }
+        .timer-wrapper {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            margin-top: 1.5rem;
+        }
+        .time-block {
+            background: rgba(30, 20, 18, 0.75);
+            backdrop-filter: blur(12px);
+            border-radius: 70px;
+            padding: 1rem 1.8rem;
+            min-width: 100px;
+            text-align: center;
+            border: 1px solid rgba(212,175,55,0.6);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        .time-block:hover {
+            transform: scale(1.05);
+            background: rgba(212,175,55,0.2);
+            border-color: #ffdf8c;
+        }
+        .time-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffefcf;
+            font-family: 'Montserrat', monospace;
+        }
+        .time-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #f7e5c2;
+        }
+
+        /* Event Timeline */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 1.3rem;
+            margin-top: 1rem;
+        }
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            background: rgba(255,245,235,0.6);
+            padding: 1rem 1.5rem;
+            border-radius: 70px;
+            backdrop-filter: blur(4px);
+            transition: 0.2s;
+            border-left: 4px solid #d4af37;
+        }
+        .timeline-item:hover {
+            background: rgba(245,225,195,0.8);
+            transform: translateX(10px);
+        }
+        .timeline-icon {
+            font-size: 2rem;
+            width: 55px;
+            text-align: center;
+        }
+        .timeline-content h4 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-family: 'Cormorant Garamond', serif;
+            color: #7a4c2c;
+        }
+        .timeline-content p {
+            font-size: 0.9rem;
+            color: #4e3a2c;
+        }
+
+        /* Google Maps Button & Location */
+        .map-card {
+            text-align: center;
+        }
+        .location-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(145deg, #d4af37, #b48b2c);
+            border: none;
+            padding: 12px 32px;
+            border-radius: 60px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .location-btn:hover {
+            transform: scale(1.03);
+            background: #c49f2e;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .venue-address {
+            margin-top: 1rem;
+            font-style: italic;
+            font-size: 1rem;
+        }
+
+        /* Gallery Slider (Swiper) */
+        .gallery-section {
+            margin: 3rem 0;
+        }
+        .swiper {
+            width: 100%;
+            padding: 1rem 0;
+            border-radius: 48px;
+        }
+        .swiper-slide {
+            text-align: center;
+            border-radius: 32px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .swiper-slide img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 32px;
+            box-shadow: 0 15px 25px -10px rgba(0,0,0,0.3);
+            transition: transform 0.5s;
+        }
+        .swiper-slide:hover img {
+            transform: scale(1.02);
+        }
+        .swiper-button-next, .swiper-button-prev {
+            color: #d4af37;
+            background: rgba(0,0,0,0.3);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+        }
+
+        /* Family Details */
+        .family-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        .family-card {
+            background: rgba(255, 252, 242, 0.8);
+            backdrop-filter: blur(8px);
+            border-radius: 40px;
+            padding: 1.5rem;
+            width: 220px;
+            text-align: center;
+            transition: 0.3s;
+            border: 1px solid rgba(212,175,55,0.3);
+        }
+        .family-card:hover {
+            transform: translateY(-8px);
+            border-color: #d4af37;
+            background: rgba(255, 248, 235, 0.95);
+        }
+        .family-icon {
+            font-size: 3rem;
+            color: #d4af37;
+        }
+        .family-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin: 0.7rem 0;
+        }
+        .family-relation {
+            font-size: 0.85rem;
+            color: #977b48;
+        }
+
+        /* Smooth scroll animations */
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .fade-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive (mobile-first) */
+        :root{ --lux-pad: clamp(1rem, 3vw, 2rem); }
+        body{ padding-bottom: env(safe-area-inset-bottom); }
+        .container{ padding-left: var(--lux-pad); padding-right: var(--lux-pad); padding-top: clamp(1.2rem, 3vw, 2rem); }
+
+        /* Mobile: 320-480 */
+        @media (max-width: 480px) {
+            .details-grid{ grid-template-columns: 1fr; gap: 1.2rem; }
+            .timer-wrapper{ gap: 0.9rem; }
+            .time-block{ padding: 0.6rem 1rem; min-width: 76px; border-radius: 54px; }
+            .time-number{ font-size: 1.7rem; }
+            .timeline-item{ border-radius: 28px; padding: 0.9rem 1rem; }
+            .location-btn{ width: 100%; justify-content: center; padding: 14px 18px; min-height: 44px; font-size: 1.05rem; }
+            .swiper-slide img{ height: 240px; }
+        }
+
+        /* Tablet: 481-768 */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .details-grid{ grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+            .timeline-item{ border-radius: 32px; }
+        }
+
+        /* Existing behavior kept for <=760 */
+        @media (max-width: 760px) {
+            .container { padding: 1rem; }
+            .glass-card { padding: 1.5rem; }
+            .timer-wrapper { gap: 1rem; }
+            .time-block { padding: 0.6rem 1rem; min-width: 70px; }
+            .time-number { font-size: 1.6rem; }
+            .timeline-item { flex-direction: column; text-align: center; border-left: none; border-top: 2px solid #d4af37; border-radius: 32px; padding: 1rem; }
+            .family-card { width: 160px; }
+        }
+
+
+        /* Sparkle decor */
+        .sparkle {
+            position: absolute;
+            background: radial-gradient(circle, #fff6d0, transparent);
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            animation: sparkleAnim 3s infinite;
+        }
+        @keyframes sparkleAnim {
+            0% { opacity: 0; transform: scale(0);}
+            50% { opacity: 0.9; transform: scale(1);}
+            100% { opacity: 0; transform: scale(0);}
+        }
+    </style>
+</head>
+<body>
+<div class="floral-bg"></div>
+<div class="floating-flowers" id="flowerContainer"></div>
+
+<main class="container">
+    <!-- 1. Couple Names Section -->
+    <div class="couple-hero fade-on-scroll visible">
+        <h1 class="couple-names">Rashmika & Vijay</h1>
+        <div class="divider"></div>
+        <p class="tagline">Together forever, starting this December</p>
+    </div>
+
+    <!-- 2. Wedding Information (Glassmorphism cards) -->
+    <div class="details-grid">
+        <div class="glass-card info-card fade-on-scroll">
+            <div class="info-icon"><i class="fas fa-calendar-alt"></i></div>
+            <h3>Wedding Date</h3>
+            <p class="info-text">Saturday, 15th may 2026</p>
+            <p class="info-text">Ceremony begins at 6:30 PM</p>
+        </div>
+        <div class="glass-card info-card fade-on-scroll">
+            <div class="info-icon"><i class="fas fa-clock"></i></div>
+            <h3>Timings</h3>
+            <p class="info-text">Wedding: 6:30 PM – 8:30 PM</p>
+            <p class="info-text">Reception: 9:00 PM onwards</p>
+        </div>
+        <div class="glass-card info-card fade-on-scroll">
+            <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <h3>Venue</h3>
+            <p class="info-text">The Royal Orchid Palace<br>Jaipur, Rajasthan</p>
+        </div>
+    </div>
+
+    <!-- 3. Countdown Timer -->
+    <div class="glass-card countdown-section fade-on-scroll" style="margin-bottom: 2rem;">
+        <h2 style="text-align: center; font-family: 'Cormorant Garamond'; color: #8b5a2b;"><i class="fas fa-hourglass-half"></i> Counting Down to Forever</h2>
+        <div class="timer-wrapper" id="countdownTimer">
+            <div class="time-block"><span class="time-number" id="days">00</span><div class="time-label">Days</div></div>
+            <div class="time-block"><span class="time-number" id="hours">00</span><div class="time-label">Hours</div></div>
+            <div class="time-block"><span class="time-number" id="minutes">00</span><div class="time-label">Minutes</div></div>
+            <div class="time-block"><span class="time-number" id="seconds">00</span><div class="time-label">Seconds</div></div>
+        </div>
+    </div>
+
+    <!-- 4. Event Timeline -->
+    <div class="glass-card fade-on-scroll" style="margin-bottom: 2rem;">
+        <h2 style="font-family: 'Cormorant Garamond'; font-size: 2rem; text-align: center;"><i class="fas fa-feather-alt"></i> Celebration Timeline</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-icon"><i class="fas fa-ring"></i></div>
+                <div class="timeline-content"><h4>Engagement Ceremony</h4><p>📅 15th may 2026 · 7:00 PM | Venue: Anjali’s Garden Estate</p></div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-icon"><i class="fas fa-church"></i></div>
+                <div class="timeline-content"><h4>Wedding Ceremony</h4><p>📅 21th may 2026 · 6:30 PM | Royal Orchid Palace</p></div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-icon"><i class="fas fa-glass-cheers"></i></div>
+                <div class="timeline-content"><h4>Grand Reception</h4><p>📅 21th may 2026 · 9:00 PM | Royal Ballroom & Dinner</p></div>
+            </div>
+        </div>
+    </div>
+
+<!-- 5. Google Maps Location (with View Location Button) -->
+    <div class="glass-card map-card fade-on-scroll" style="margin-bottom: 2rem;">
+        <i class="fas fa-map-pin" style="font-size: 2rem; color:#d4af37;"></i>
+        <h3 style="margin: 0.5rem 0;">Find Our Wedding Venue</h3>
+        <p class="venue-address"><i class="fas fa-location-dot"></i>Evento Convention Centre</p>
+        <button id="viewLocationBtn" class="location-btn"><i class="fab fa-google"></i> View Location on Google Maps</button>
+        <p style="font-size: 0.75rem; margin-top: 12px;">Click to open directions</p>
+    </div>
+
+    <!-- 5b. Continue to RSVP -->
+    <div class="glass-card fade-on-scroll" style="text-align:center; margin-bottom: 1.5rem;">
+        <h2 style="font-family: 'Cormorant Garamond'; font-size: 2rem; margin-bottom: 0.8rem;"><i class="fas fa-paper-plane" style="color:#d4af37;"></i> Ready to RSVP?</h2>
+        <button id="rsvpContinueBtn" class="location-btn" style="background: linear-gradient(145deg, #d4af37, #b48b2c);">
+            <i class="fas fa-envelope-open-text"></i> RSVP Now
+        </button>
+        <p style="font-size: 0.75rem; margin-top: 10px; color:#7c5e3a;">Confirm your presence in seconds</p>
+    </div>
+
+    <!-- 6. Image Gallery Slider -->
+    <div class="gallery-section fade-on-scroll">
+        <div class="glass-card" style="padding: 1.2rem;">
+            <h2 style="text-align: center; font-family: 'Cormorant Garamond';"><i class="fas fa-images"></i> Precious Moments</h2>
+            <div class="swiper weddingSwiper" style="margin-top: 1.5rem;">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="{% static 'images/1.jpg' %}" alt="Couple"></div>
+                    <div class="swiper-slide"><img src="{% static 'images/2.webp' %}" alt="Wedding Dress"></div>
+                    <div class="swiper-slide"><img src="{% static 'images/3.webp' %}" alt="Bride Smile"></div>
+                    <div class="swiper-slide"><img src="{% static 'images/4.webp' %}" alt="Wedding Rings"></div>
+                    <div class="swiper-slide"><img src="{% static 'images/5.avif' %}" alt="Couple Embrace"></div>
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. Family Details Section -->
+    <div class="glass-card fade-on-scroll" style="margin-top: 1rem;">
+        <h2 style="text-align: center; font-family: 'Cormorant Garamond';">Families of Love</h2>
+        <div class="family-grid">
+            <div class="family-card"><div class="family-icon"><i class="fas fa-user-tie"></i></div><div class="family-name">Mr. & Mrs. Verma</div><div class="family-relation">Parents of Rahul</div></div>
+            <div class="family-card"><div class="family-icon"><i class="fas fa-user-friends"></i></div><div class="family-name">Mr. & Mrs. Sharma</div><div class="family-relation">Parents of Anjali</div></div>
+            <div class="family-card"><div class="family-icon"><i class="fas fa-heart"></i></div><div class="family-name">Rohan & Priya</div><div class="family-relation">Siblings & Families</div></div>
+            <div class="family-card"><div class="family-icon"><i class="fas fa-hand-holding-heart"></i></div><div class="family-name">Elder Blessings</div><div class="family-relation">Grandparents</div></div>
+        </div>
+        <p style="text-align: center; margin-top: 1.5rem; font-size: 0.85rem;">With open hearts, we welcome you to our union</p>
+    </div>
+</main>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    // --------------------------------------------------------------
+    // 1. Countdown Timer (set wedding date: Dec 15, 2026 18:30:00)
+    const weddingDate = new Date('may 15, 2026 18:30:00').getTime();
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const diff = weddingDate - now;
+        if (diff < 0) {
+            document.getElementById('days').innerText = '00';
+            document.getElementById('hours').innerText = '00';
+            document.getElementById('minutes').innerText = '00';
+            document.getElementById('seconds').innerText = '00';
+            return;
+        }
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (86400000)) / (3600000));
+        const minutes = Math.floor((diff % 3600000) / 60000);
+        const seconds = Math.floor((diff % 60000) / 1000);
+        document.getElementById('days').innerText = days < 10 ? '0'+days : days;
+        document.getElementById('hours').innerText = hours < 10 ? '0'+hours : hours;
+        document.getElementById('minutes').innerText = minutes < 10 ? '0'+minutes : minutes;
+        document.getElementById('seconds').innerText = seconds < 10 ? '0'+seconds : seconds;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // 2. Google Maps Location Button (opens in new tab)
+    const locationBtn = document.getElementById('viewLocationBtn');
+    const mapsUrl = "https://maps.app.goo.gl/K1rS4wDkXAHhmZhFA";
+    locationBtn.addEventListener('click', () => {
+        window.open(mapsUrl, '_blank');
+    });
+
+    // Continue to RSVP with cinematic transition
+    const rsvpContinueBtn = document.getElementById('rsvpContinueBtn');
+    rsvpContinueBtn && rsvpContinueBtn.addEventListener('click', () => {
+        const transition = document.createElement('div');
+        transition.style.position = 'fixed';
+        transition.style.top = 0;
+        transition.style.left = 0;
+        transition.style.width = '100%';
+        transition.style.height = '100%';
+        transition.style.backgroundColor = '#000';
+        transition.style.zIndex = '9999';
+        transition.style.opacity = '0';
+        transition.style.transition = 'opacity 0.9s cubic-bezier(0.23, 1, 0.32, 1)';
+        transition.style.pointerEvents = 'none';
+        document.body.appendChild(transition);
+        setTimeout(() => { transition.style.opacity = '1'; }, 20);
+        setTimeout(() => { window.location.href = '{% url "rsvp" %}'; }, 500);
+    });
+
+    // 3. Gallery Slider (Swiper)
+    const isMobile = matchMedia('(max-width: 768px)').matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const swiper = new Swiper('.weddingSwiper', {
+        loop: true,
+        slidesPerView: 1,
+        spaceBetween: 20,
+        pagination: { el: '.swiper-pagination', clickable: true },
+        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+        breakpoints: {
+            640: { slidesPerView: 2, spaceBetween: 20 },
+            1024: { slidesPerView: 3, spaceBetween: 30 }
+        },
+        autoplay: { delay: (isMobile || prefersReduced) ? 6000 : 3000, disableOnInteraction: false },
+    });
+
+
+    // 4. Smooth Scrolling Animations (Intersection Observer)
+    const fadeElements = document.querySelectorAll('.fade-on-scroll');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+    fadeElements.forEach(el => observer.observe(el));
+
+    // manually set already visible couple hero
+    document.querySelector('.couple-hero').classList.add('visible');
+
+    // 5. Floating decorative elements (flowers + sparkles)
+
+    const flowerContainer = document.getElementById('flowerContainer');
+    const flowers = ['🌸', '🌼', '🌺', '🌷', '🌸', '💮', '🌻', '🥀'];
+    const flowerCount = (isMobile || prefersReduced) ? 12 : 35;
+    for (let i = 0; i < flowerCount; i++) {
+        const flower = document.createElement('div');
+        flower.classList.add('flower-particle');
+        flower.innerHTML = flowers[Math.floor(Math.random() * flowers.length)];
+        const size = 1 + Math.random() * 1.3;
+        flower.style.fontSize = `${size}rem`;
+        flower.style.left = `${Math.random() * 100}%`;
+        flower.style.animationDuration = `${14 + Math.random() * 18}s`;
+        flower.style.animationDelay = `${Math.random() * 15}s`;
+        flower.style.opacity = 0.18 + Math.random() * 0.22;
+        flowerContainer.appendChild(flower);
+    }
+
+    // additional sparkles on hover cards? Or random sparkle generator
+    function createSparkle(x, y) {
+        const spark = document.createElement('div');
+        spark.classList.add('sparkle');
+        spark.style.left = `${x}px`;
+        spark.style.top = `${y}px`;
+        spark.style.position = 'fixed';
+        document.body.appendChild(spark);
+        setTimeout(() => spark.remove(), 1200);
+    }
+
+    // add subtle sparkle effect on any glass-card hover (disable on mobile)
+    if (!isMobile && !prefersReduced) {
+        const cards = document.querySelectorAll('.glass-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                if (Math.random() > 0.7) {
+                    createSparkle(e.clientX, e.clientY);
+                }
+            }, { passive: true });
+        });
+    }
+
+
+    // Additional Hover animations for timeline items
+    console.log("Wedding Details Page Loaded - Royal Elegance ✨");
+
+    // Django template support note: static files integration ready
+    // For production: replace image sources with {% static '...' %} if needed
+</script>
+<style>
+    /* enhance hover, extra style */
+    .swiper-slide img {
+        transition: all 0.5s;
+    }
+    .swiper-slide:hover img {
+        filter: brightness(1.03) contrast(1.02);
+        transform: scale(1.01);
+    }
+    .location-btn i {
+        transition: transform 0.3s;
+    }
+    .location-btn:hover i {
+        transform: translateX(5px);
+    }
+    .timeline-item {
+        cursor: default;
+    }
+    ::-webkit-scrollbar {
+        width: 6px;
+        background: #f1e5d8;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #d4af37;
+        border-radius: 10px;
+    }
+</style>
+</body>
+</html>
